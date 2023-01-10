@@ -17,5 +17,10 @@ class Grado extends REST_Controller
     $dato = $this->Model_grado->updateGrado();
     $this->response($dato);
   }
+  public function listarGrado_get(){
+    # code...
+    $dato = $this->Model_grado->listarGradoModel();
+    $this->response($dato);
+  }
   
 }

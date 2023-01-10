@@ -28,5 +28,11 @@ class Model_grado extends CI_Model
                                 "estado"=>"NO se edito rango");
         }
     }
+    public function listarGradoModel()
+    {
+        $this->db->select('*');
+        $query = $this->db->get('grado');
+        return $query->result();
+    }
     
 }
