@@ -182,6 +182,31 @@ class Model_alumnos extends CI_Model
        
         return $respuestaTotalAlumnos;
     }
+    public function listarAlumnosfecha()
+    {
+        $respuestaTotal = array();
+        $respuestaTotalAlumnos = array();
+        $activos = array();
+        $inactivos = array();
+        //$grado = $_POST[];
+        $fecha = $_POST["fecha"];
+        # code...
+        $this->db->select('*');
+        $array = array('fecha' => $fecha);
+        $this->db->where($array);
+        $query = $this->db->get('alumnos');
+        //return $query->result();
+        $respuesta = $query->result();
+        foreach ($respuesta as $respuestas) {
+            # code...
+            
+            $respuestaTotalAlumnos [] =  array('nombre' => $respuestas->nombre,
+                                        'fechaInscripcion' => $respuestas->fecha,
+                                    'fechaNaciemto' => $respuestas->fecha);
+        }
+       
+        return $respuestaTotalAlumnos;
+    }
     
    
 }

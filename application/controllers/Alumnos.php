@@ -84,6 +84,12 @@ class Alumnos extends REST_Controller
 			}
 			$this->response($respuesta);
    }
+   public function listAlumnosfecha_post()
+   {
+       # code...
+       $dato= $this->Model_alumnos->listarAlumnosfecha();
+       $this->response($dato);
+   }
   
    
 }
