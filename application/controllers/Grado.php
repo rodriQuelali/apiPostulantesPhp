@@ -22,5 +22,13 @@ class Grado extends REST_Controller
     $dato = $this->Model_grado->listarGradoModel();
     $this->response($dato);
   }
+  //guardar carrera
+  public function guarda_post()
+  {
+      # code...
+    $dato = $this->Model_grado->guardaGrado();
+    $this->response($dato);
+
+  }
   
 }

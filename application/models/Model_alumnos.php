@@ -24,6 +24,20 @@ class Model_alumnos extends CI_Model
     public $extencion; //post
     public $turno; //post
     public $nota;
+    public $gestionSemestre;
+    
+    function gestionG()
+    {
+        $fecha = "";
+        $registro = date('m');
+        if($registro >= 7){
+            $fecha = "II-".date('Y');
+        }else{
+            $fecha = "I-".date('Y');
+        }
+        return $fecha;
+        # code...
+    }
     
     public function guardaAlumnos()
     {
@@ -48,6 +62,7 @@ class Model_alumnos extends CI_Model
             $this->correo = null;
             $this->extencion = null;
             $this->turno = $_POST["txtTurno"];
+            $this->gestionSemestre = gestionG();
             //para guardar
             $insertado = $this->db->insert('alumnos', $this);
              $estado_code = array("http"=>http_response_code(201),

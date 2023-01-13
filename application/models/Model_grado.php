@@ -11,6 +11,26 @@ class Model_grado extends CI_Model
     public $estado;
     public $rango;
 
+    //agregar carrera
+    public function guardaGrado()
+    {
+        $estado_code = array();
+        if(isset($_POST["txtNombreGrado"])){
+            $this->nombre = $_POST["txtNombreGrado"];
+            $this->estado = $_POST["txtEstado"];
+            $this->rango = $_POST["txtRango"];
+            //para guardar
+            $insertado = $this->db->insert('grado', $this);
+             $estado_code = array("http"=>http_response_code(201),
+                                "estado"=>"ok");
+			//return $this->db->save_queries;
+            return $estado_code;
+        }else{
+            return $estado_code = array("http"=>http_response_code(500),
+                                "estado"=>"No se registro");
+        }
+    }
+
     public function updateGrado()
     {
         # code...
