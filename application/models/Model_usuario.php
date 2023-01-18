@@ -28,7 +28,6 @@ class Model_usuario extends CI_Model
         $this->db->where($array);
         $query = $this->db->get('usuario');
         return $query->custom_row_object(0,'Model_usuario');
-
     }
 
     public function guardar_usuario()

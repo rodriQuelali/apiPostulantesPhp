@@ -37,6 +37,7 @@ class Usuario extends REST_Controller
                      'usuario' => $data
                  );
              }else{
+                
                  $respuesta = array(
                      'err' => true,
                      'desc' => "El usuario o código son incorrectos.",
