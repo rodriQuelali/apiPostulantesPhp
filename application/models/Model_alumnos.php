@@ -193,7 +193,7 @@ class Model_alumnos extends CI_Model
         $respuestaTotalAlumnos = array();
         $activos = array();
         $inactivos = array();
-        $grado = $_POST["gestionA"];
+        $grado = $_POST["filtroCarrera"];
         //$grado = 1;
         # code...
         $this->db->select('*');

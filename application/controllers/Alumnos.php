@@ -55,9 +55,15 @@ class Alumnos extends REST_Controller
 
   public function countStudent_post()
   {
-	
+	$arrayGe = array();
 	$dato= $this->Model_alumnos->countAlumnosCarrera();
-    $this->response($dato);
+  $datosEs= $this->Model_alumnos->listarAlumnosGestionModel();
+    
+    $arrayGe = array(
+      'total'=> $dato,
+      'cuerpo'=> $datosEs
+    );
+    $this->response($arrayGe);
   }
 
   public function countStudentFinal_post()
