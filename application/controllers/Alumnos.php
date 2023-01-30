@@ -52,7 +52,7 @@ class Alumnos extends REST_Controller
 	$dato = $this->Model_alumnos->updateAlumnos();
 	$this->response($dato);
   }
-
+// para listar total y nombre telefono turno
   public function countStudent_post()
   {
 	$arrayGe = array();

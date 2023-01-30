@@ -5,7 +5,7 @@ date_default_timezone_set('America/La_Paz');
 
 class Model_alumnos extends CI_Model
 {
-    //public $id; //no
+    public $id; //no
     public $password; //ci
     public $nombre; //post
     public $paterno;
@@ -207,7 +207,10 @@ class Model_alumnos extends CI_Model
             # code...
             
             $respuestaTotalAlumnos [] =  array('n' => $count,
+                                    'idAlumno'=> $respuestas->id,
                                     'nombre' => $respuestas->nombre,
+                                    'apellidoPaterno'=> $respuestas->paterno,
+                                    'apellidoMaterno'=> $respuestas->materno,
                                     'grado' => $respuestas->grado,
                                     'fechaNaciemto' => $respuestas->fecha,
                                     'telefono' => $respuestas->telefono);
