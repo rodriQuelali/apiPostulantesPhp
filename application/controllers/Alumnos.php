@@ -10,11 +10,31 @@ class Alumnos extends REST_Controller
 		$this->load->database();
 		$this->load->model('Model_alumnos');
     }
+
+    public function loginAlumno_post()
+    {
+        # code...
+        $data = $this->Model_alumnos->loginAlumno();
+             if($data){
+                 $respuesta = array(
+                     'err' => false,
+                     'desc' => "Inicio de sección correcto.",
+                     'alumnos' => $data
+                 );
+             }else{
+                 $respuesta = array(
+                     'err' => true,
+                     'desc' => "El alumno o código son incorrectos.",
+                     'alumnos' => null
+                 );
+             }
+             $this->response($respuesta);
+    }
     
-   public function listAlumnos_get()
+   public function listAlumnosGestion_post()
    {
        # code...
-       $dato= $this->Model_alumnos->listarAlumnos();
+       $dato= $this->Model_alumnos->listarAlumnosGestionModel();
        $this->response($dato);
    }
 
@@ -32,12 +52,18 @@ class Alumnos extends REST_Controller
 	$dato = $this->Model_alumnos->updateAlumnos();
 	$this->response($dato);
   }
-
+// para listar total y nombre telefono turno
   public function countStudent_post()
   {
-	
+	$arrayGe = array();
 	$dato= $this->Model_alumnos->countAlumnosCarrera();
-    $this->response($dato);
+  $datosEs= $this->Model_alumnos->listarAlumnosGestionModel();
+    
+    $arrayGe = array(
+      'total'=> $dato,
+      'cuerpo'=> $datosEs
+    );
+    $this->response($arrayGe);
   }
 
   public function countStudentFinal_post()
@@ -65,6 +91,7 @@ class Alumnos extends REST_Controller
                   "carreras" => $respuesta);
     $this->response($genera);
   }
+
    public function filtroAlumnos_post()
    {
        # code...
@@ -84,6 +111,13 @@ class Alumnos extends REST_Controller
 			}
 			$this->response($respuesta);
    }
+   public function listAlumnosfecha_post()
+   {
+       # code...
+       $dato= $this->Model_alumnos->listarAlumnosfecha();
+       $this->response($dato);
+   }
+  
   
    
 }

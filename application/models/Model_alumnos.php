@@ -5,7 +5,7 @@ date_default_timezone_set('America/La_Paz');
 
 class Model_alumnos extends CI_Model
 {
-    //public $id; //no
+    public $id; //no
     public $password; //ci
     public $nombre; //post
     public $paterno;
@@ -24,7 +24,22 @@ class Model_alumnos extends CI_Model
     public $extencion; //post
     public $turno; //post
     public $nota;
+    public $gestionSemestre;
+    public $privilegio;
     
+    function gestionG()
+    {
+        $fecha = "";
+        $registro = date('m');
+        if($registro >= 7){
+            $fecha = "II-".date('Y');
+        }else{
+            $fecha = "I-".date('Y');
+        }
+        return $fecha;
+        # code...
+    }
+
     public function guardaAlumnos()
     {
         $estado_code = array();
@@ -48,6 +63,8 @@ class Model_alumnos extends CI_Model
             $this->correo = null;
             $this->extencion = null;
             $this->turno = $_POST["txtTurno"];
+            $this->gestionSemestre = $this -> gestionG();
+            $this->privilegio = 3;
             //para guardar
             $insertado = $this->db->insert('alumnos', $this);
              $estado_code = array("http"=>http_response_code(201),
@@ -60,6 +77,17 @@ class Model_alumnos extends CI_Model
         }
     }
 
+    public function loginAlumno()
+    {
+        # code...
+        $this->ci = $_POST['nombre'];
+        $this->password = $_POST['password'];
+        $this->db->select('*');
+        $array = array('ci' => $this->ci, 'password' => $this->password);
+        $this->db->where($array);
+        $query = $this->db->get('alumnos');
+        return $query->custom_row_object(0,'Model_alumnos');
+    }
     
     public function updateAlumnos()
     {
@@ -99,6 +127,8 @@ class Model_alumnos extends CI_Model
         $respuestaTotalAlumnos = array();
         $totalS = 0;
         $this->db->select('*');
+        $array = array('gestionSemestre' => $this -> gestionG());
+        $this->db->where($array);
         $query = $this->db->get('alumnos');
         $respuesta = $query->result();
         foreach ($respuesta as $respuestas) {
@@ -119,7 +149,7 @@ class Model_alumnos extends CI_Model
         $totalNi =0;
         # code...
         $this->db->select('*');
-        $array = array('grado' => $grado);
+        $array = array('grado' => $grado, 'gestionSemestre' => $this -> gestionG());
         $this->db->where($array);
         $query = $this->db->get('alumnos');
         $respuesta = $query->result();
@@ -147,7 +177,7 @@ class Model_alumnos extends CI_Model
         $totalS = 0;
         # code...
         $this->db->select('*');
-        $array = array('grado' => $id);
+        $array = array('grado' => $id, 'gestionSemestre' => $this -> gestionG());
         $this->db->where($array);
         $query = $this->db->get('alumnos');
         $respuesta = $query->result();
@@ -157,17 +187,51 @@ class Model_alumnos extends CI_Model
        
         return $respuestaTotalAlumnos [] =  array('total' => $totalS);
     }
-    public function listarAlumnos()
+    public function listarAlumnosGestionModel()
+    {
+        $respuestaTotal = array();
+        $respuestaTotalAlumnos = array();
+        $activos = array();
+        $inactivos = array();
+        $grado = $_POST["filtroCarrera"];
+        //$grado = 1;
+        # code...
+        $this->db->select('*');
+        $array = array('grado' => $grado, 'gestionSemestre' => $this -> gestionG() );
+        $this->db->where($array);
+        $query = $this->db->get('alumnos');
+        //return $query->result();
+        $respuesta = $query->result();
+        $count=1;
+        foreach ($respuesta as $respuestas) {
+            # code...
+            
+            $respuestaTotalAlumnos [] =  array('n' => $count,
+                                    'idAlumno'=> $respuestas->id,
+                                    'nombre' => $respuestas->nombre,
+                                    'apellidoPaterno'=> $respuestas->paterno,
+                                    'apellidoMaterno'=> $respuestas->materno,
+                                    'grado' => $respuestas->grado,
+                                    'fechaNaciemto' => $respuestas->fecha,
+                                    'telefono' => $respuestas->telefono);
+
+                                    $count=$count+1;
+        }
+       
+        return $respuestaTotalAlumnos;
+
+    }
+    public function listarAlumnosfecha()
     {
         $respuestaTotal = array();
         $respuestaTotalAlumnos = array();
         $activos = array();
         $inactivos = array();
         //$grado = $_POST[];
-        $grado = 1;
+        $fecha = $_POST["fecha"];
         # code...
         $this->db->select('*');
-        $array = array('grado' => $grado);
+        $array = array('fecha' => $fecha);
         $this->db->where($array);
         $query = $this->db->get('alumnos');
         //return $query->result();
@@ -176,7 +240,7 @@ class Model_alumnos extends CI_Model
             # code...
             
             $respuestaTotalAlumnos [] =  array('nombre' => $respuestas->nombre,
-                                        'grado' => $respuestas->grado,
+                                        'fechaInscripcion' => $respuestas->fecha,
                                     'fechaNaciemto' => $respuestas->fecha);
         }
        
