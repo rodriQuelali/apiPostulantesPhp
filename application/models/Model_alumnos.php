@@ -95,7 +95,7 @@ class Model_alumnos extends CI_Model
         if(isset($_POST["id"])){
             $this->nota = $_POST["nota"];
             //$insertado = $this->db->insert('alumnos', $this);
-            $this->db->update('alumnos', array('nota' => $_POST['nota']), array('id' => $_POST['id']));
+            $this->db->update('alumnos', array('nota' => $_POST['nota'], 'idMedio' => $_POST['txtExtra']), array('id' => $_POST['id'], 'gestionSemestre' => $this -> gestionG()));
              $estado_code = array("http"=>http_response_code(201),
                                 "estado"=>"ok",
                             "tipo"=>"nota");
@@ -113,9 +113,9 @@ class Model_alumnos extends CI_Model
         # code...
         $this->ci = $_POST['txtCiFiltro'];
         $this->db->select('*');
-        //$array = array('ci' => $this->ci, 'nombre' => $this->ci);
-        $this->db->where('ci =', $this->ci);
-        $this->db->or_where('nombre =', $this->ci);
+        $array = array('ci' => $this->ci, 'gestionSemestre' => $this-> gestionG());
+        $this->db->where($array);
+        //$this->db->or_where('nombre =', $this->ci);
         $query = $this->db->get('alumnos');
         return $query->custom_row_object(0,'Model_alumnos');
 
